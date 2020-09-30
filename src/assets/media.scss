@@ -1,0 +1,8 @@
+@media (min-width: 2400px) {
+    .static-th-width{
+        td{
+            width: unset;
+            max-width: unset;
+        }
+    }
+}
