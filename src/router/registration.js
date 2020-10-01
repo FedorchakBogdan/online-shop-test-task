@@ -1,5 +1,5 @@
 import { store } from '../store'
-const Login = () => import('@views/auth/Login.vue')
+const Registration = () => import('@views/registration/Registration.vue')
 
 const redirect = (to, from, next) => {
   if (store.state.auth.accessToken) {
@@ -11,14 +11,14 @@ const redirect = (to, from, next) => {
 
 export default [
   {
-    name: 'login',
-    path: '/login',
-    component: Login,
+    name: 'registration',
+    path: '/registration',
+    component: Registration,
     beforeEnter: redirect,
     meta: {
       guestGuard: true,
-      title: 'Login',
-      layout: 'login'
+      title: 'Registration',
+      layout: 'registration'
     }
   }
 ]
