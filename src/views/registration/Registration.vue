@@ -1,9 +1,19 @@
 <template>
   <div class="auth-form">
-    <h1 class="account-title">Login</h1>
+    <h1 class="account-title">Sing In</h1>
     <form method="POST" v-on:submit.prevent="login" id="login-form">
       <div class="account-form-element">
-        <label class="account-label">Enter username</label>
+        <label class="account-label">Name*</label>
+        <v-text-field
+          class="fm-input"
+          id="name"
+          placeholder="Name entered here"
+          required
+          v-model="name"
+        />
+      </div>
+      <div class="account-form-element">
+        <label class="account-label">Email*</label>
         <v-text-field
           class="fm-input"
           type="email"
@@ -18,7 +28,7 @@
         </div>
       </div>
       <div class="account-form-element">
-        <label class="account-label">Enter Password</label>
+        <label class="account-label">Password*</label>
         <v-text-field
           class="fm-input"
           type="password"
@@ -44,48 +54,35 @@
             form="login-form"
             class="fm-button-primary"
           >
-            Log In
-          </v-btn>
-        </v-col>
-        <v-col cols="12">
-          <v-btn
-            block
-            color="success"
-            @click="$router.push({ name: 'registration'})"
-          >
             Sing In
           </v-btn>
         </v-col>
       </v-row>
-      <v-alert type="error" v-bind:class="{ 'alert-visibility': getIsCorrect }">
-        Login or password incorrect, please try again.
-      </v-alert>
     </form>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   data: () => ({
+    name: '',
     email: '',
     password: '',
     remember: false,
     active: true
   }),
-  computed: {
-    ...mapGetters('auth', ['getIsCorrect'])
-  },
   methods: {
-    ...mapActions('auth', ['loginRequest']),
+    ...mapActions('auth', ['registrationUser']),
     async login () {
       try {
-        await this.loginRequest({
+        await this.registrationUser({
           email: this.email,
-          password: this.password
+          password: this.password,
+          name: this.name
         })
-        this.$router.push({ name: 'products.index' })
+        this.$router.push({ name: 'login' })
       } catch (e) {
       }
     }

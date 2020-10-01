@@ -7,6 +7,7 @@
 <script>
 import LoginLayout from '@layouts/LoginLayout'
 import MainLayout from '@layouts/MainLayout'
+import RegistrationLayout from '@layouts/RegistrationLayout'
 
 export default {
   computed: {
@@ -16,7 +17,8 @@ export default {
   },
   components: {
     LoginLayout,
-    MainLayout
+    MainLayout,
+    RegistrationLayout
   }
 }
 </script>

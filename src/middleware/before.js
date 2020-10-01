@@ -4,7 +4,7 @@ import auth from './before/auth'
 import allow from './before/allow'
 
 export default (to, from, next) => {
-  if (store.state.auth.access_token) {
+  if (store.state.auth.accessToken) {
     auth(to, from, next)
     allow(to, from, next)
   } else {

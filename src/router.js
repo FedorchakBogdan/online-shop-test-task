@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import routeImporter from './plugins/importers/routeImporter'
 import RouteMerger from './plugins/importers/RouteMerger'
-// import before from './middleware/before'
+import before from './middleware/before'
 Vue.use(Router)
 const routes = []
 
@@ -19,6 +19,6 @@ const router = new Router({
   }
 })
 
-// router.beforeEach(before)
+router.beforeEach(before)
 
 export default router
