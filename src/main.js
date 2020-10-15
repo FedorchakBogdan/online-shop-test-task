@@ -5,9 +5,13 @@ import router from './router'
 import { store } from './store'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@mdi/font/css/materialdesignicons.css'
+import * as VueFire from 'vuefire'
 import firebase from 'firebase/app'
+import 'vue-loaders/dist/vue-loaders.css'
+import VueLoaders from 'vue-loaders'
 import 'firebase/auth'
 import 'firebase/database'
+import 'firebase/firestore'
 
 Vue.config.productionTip = false
 
@@ -22,8 +26,11 @@ firebase.initializeApp({
   measurementId: 'G-62CHQW1CNL'
 })
 
-let app
+Vue.use(VueLoaders)
+Vue.use(VueFire)
+Vue.config.productionTip = false
 
+let app
 firebase.auth().onAuthStateChanged(() => {
   if (!app) {
     new Vue({
@@ -35,3 +42,4 @@ firebase.auth().onAuthStateChanged(() => {
     }).$mount('#app')
   }
 })
+export const db = firebase.firestore()

@@ -40,6 +40,10 @@ export default {
           console.log(error)
         })
     },
+    authLogout: async () => {
+      Cookies.remove('access_token')
+      document.location.reload()
+    },
     getUserID: () => {
       const user = firebase.auth().currentUser
       return user ? user.uid : null
