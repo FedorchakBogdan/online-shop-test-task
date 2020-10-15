@@ -8,15 +8,16 @@
 import Form from './components/Form'
 import { mapActions } from 'vuex'
 export default {
-  name: 'Create',
+  name: 'Edit',
   components: {
     Form
   },
   methods: {
-    ...mapActions('products', ['createProduct']),
+    ...mapActions('products', ['updateProduct', 'uploadPhotoToDocument']),
     async submitHandler (data) {
-      await this.createProduct(data)
-      this.$router.push({ name: 'products.index' })
+      await this.updateProduct({ id: this.$route.params.id, data: data }).then(() => {
+        this.$router.push({ name: 'products.index' })
+      })
     }
   }
 }

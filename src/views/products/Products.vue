@@ -11,8 +11,11 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="4">
-        <div id="app">
+      <v-col cols="4"
+        v-for="item in getProducts"
+        :key="item.id"
+      >
+        <div>
           <v-app id="inspire">
             <v-card
               class="mx-auto my-12"
@@ -27,63 +30,50 @@
               </template>
 
               <v-img
+                v-if="item.photo"
                 height="250"
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                :src=item.photo
+              ></v-img>
+              <v-img
+                v-else
+                height="250"
+                src=https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg
               ></v-img>
 
-              <v-card-title>Cafe Badilico</v-card-title>
+              <v-card-title>{{item.title}}</v-card-title>
 
               <v-card-text>
-                <v-row
-                  align="center"
-                  class="mx-0"
-                >
-                  <v-rating
-                    :value="4.5"
-                    color="amber"
-                    dense
-                    half-increments
-                    readonly
-                    size="14"
-                  ></v-rating>
-
-                  <div class="grey--text ml-4">
-                    4.5 (413)
-                  </div>
-                </v-row>
-
                 <div class="my-4 subtitle-1">
-                  $ • Italian, Cafe
+                  {{item.price}} $
                 </div>
 
-                <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+                <div>{{ item.description }}</div>
               </v-card-text>
 
               <v-divider class="mx-4"></v-divider>
 
-              <v-card-title>Tonight's availability</v-card-title>
-
-              <v-card-text>
-                <v-chip-group
-                  active-class="deep-purple accent-4 white--text"
-                  column
-                >
-                  <v-chip>5:30PM</v-chip>
-
-                  <v-chip>7:30PM</v-chip>
-
-                  <v-chip>8:00PM</v-chip>
-
-                  <v-chip>9:00PM</v-chip>
-                </v-chip-group>
+              <v-card-title v-if="item.percent">
+                Sale: -{{item.percent}}%
+              </v-card-title>
+              <v-card-text
+                v-if="item.percentDate"
+              >
+                Date sale off: {{item.percentDate}}
               </v-card-text>
-
               <v-card-actions>
                 <v-btn
                   color="deep-purple lighten-2"
                   text
+                  @click="editHandler(item.id)"
                 >
-                  Reserve
+                  Edit
+                </v-btn>
+                <v-btn
+                  color="deep-purple lighten-2"
+                  text
+                  @click="deleteHandler(item.id)"
+                >
+                  Delete
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -95,8 +85,33 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
-  name: 'MainPage'
+  name: 'MainPage',
+  data () {
+    return {
+      products: []
+    }
+  },
+  methods: {
+    ...mapActions('products', ['fetchProducts', 'deleteProduct', 'getProductsById']),
+    async deleteHandler (productId) {
+      await this.deleteProduct(productId).then(() => {
+        this.fetchProducts()
+      })
+    },
+    async editHandler (productId) {
+      await this.getProductsById(productId)
+      this.$router.push({ name: 'products.edit', params: { id: productId } })
+    }
+  },
+  computed: {
+    ...mapGetters('products', ['getProducts', 'getCurrentProduct'])
+  },
+  async created () {
+    await this.fetchProducts()
+  }
 }
 </script>
 
